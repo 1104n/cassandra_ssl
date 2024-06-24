@@ -1,0 +1,28 @@
+version: '3'
+services:
+  ssl_cassandra:
+    tty: true
+    image: ssl_cassandra
+    container_name: ssl_cassandra
+    hostname: cas
+    environment:
+       - CASSANDRA_BROADCAST_ADDRESS=
+       - CASSANDRA_SEEDS=
+    ports:
+      - "7199:7199"
+      - "7000:7000"
+      - "9042:9042"
+      - "9142:9142"
+      - "7001:7001"
+    volumes:
+      - /mnt/disk2/cassandra_latest/:/var/lib/cassandra/data/
+      - /etc/localtime:/etc/localtime:ro
+      - "path to certs":/etc/ssl/certs
+      - "path to updated cassandra.yaml":/etc/cassandra/cassandra.yaml
+      - "path to created cqlshrc":/root/.cassandra/cqlshrc
+    networks:
+      created docker network:
+        ipv4_address: docker ip
+networks:
+  created network:
+    external: true
